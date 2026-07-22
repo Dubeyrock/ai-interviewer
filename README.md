@@ -1,11 +1,17 @@
-# AI Interviewer 
+# PratibhaAI — Discover Talent, Powered by AI
+
+AI-powered autonomous interview platform with:
+- Real-time emotion analysis
+- Hindi + English bilingual support  
+- IT + Non-IT candidate tracks
+- Resume-based adaptive questions
 
 ## 🚀 Problem Statement
 
 Traditional hiring processes are often time-consuming, prone to human bias, and difficult to scale. HR professionals and technical recruiters spend countless hours manually screening resumes and conducting preliminary interviews. Furthermore, ensuring a consistent and fair evaluation across all candidates can be challenging, leading to suboptimal hiring decisions and a poor candidate experience.
 
 ## 💡 Solution
-The **AI Interviewer** is an intelligent, automated platform designed to streamline the recruitment pipeline. It provides an end-to-end solution for candidate screening and interviewing:
+The **PratibhaAI** platform is an intelligent, automated platform designed to streamline the recruitment pipeline. It provides an end-to-end solution for candidate screening and interviewing:
 - **Smart Resume Parsing:** Automatically extracts information from uploaded resumes and calculates a domain/job-role fit score.
 - **Retrieval-Augmented Generation (RAG):** Enhances AI responses by retrieving context from documents and domain knowledge to provide highly accurate, relevant interactions.
 - **Adaptive AI Interviews:** Utilizes advanced LLMs (via Groq) to generate dynamic, context-aware interview questions based on the candidate's profile and previous answers.
@@ -37,7 +43,7 @@ The **AI Interviewer** is an intelligent, automated platform designed to streaml
 
 ## 🏗 Application Architecture & Workflow
 
-Below is the complete architectural flowchart of the **AI Interviewer** platform, showcasing how data flows from the Web Portals down to the AI Services and Database layer:
+Below is the complete architectural flowchart of the **PratibhaAI** platform, showcasing how data flows from the Web Portals down to the AI Services and Database layer:
 
 ```mermaid
 flowchart TD
@@ -93,10 +99,10 @@ flowchart TD
     %% 5. Backend
     subgraph BackendLayer ["FastAPI Backend (Python)"]
         direction LR
-        B1[/api/resume]
-        B2[/api/interview]
-        B3[/api/score]
-        B4[/api/report]
+        B1["/api/resume"]
+        B2["/api/interview"]
+        B3["/api/score"]
+        B4["/api/report"]
     end
     class BackendLayer backend
 
