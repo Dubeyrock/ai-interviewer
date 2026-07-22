@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/ai-interviewer
+hooks:
+  BeforeInstall:
+    - location: scripts/deploy_ec2.sh
+      timeout: 300
+      runas: root
