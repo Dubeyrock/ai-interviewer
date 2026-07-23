@@ -96,12 +96,22 @@ export default function Navbar() {
 
   const isAdminRoute = location.pathname.startsWith('/admin')
   const baseRoleLinks = linksByRole[role!] || []
-  let navItems = isAdminRoute
-    ? baseRoleLinks.filter((item) => item.to === '/admin/dashboard')
-    : role ? baseRoleLinks : publicLinks
-  // Hide Billing from internal PratibhaAI staff; show only to client HR
-  if (role === 'hr' && !isInternal) {
-    navItems = [...navItems, { to: '/hr/billing', label: 'Billing' }]
+
+  let navItems: NavItem[]
+
+  if (isAdminRoute) {
+    navItems = baseRoleLinks.filter((item) => item.to === '/admin/dashboard')
+  } else if (role === 'hr') {
+    // ✅ Role-based visibility for HR:
+    // - Pratibha AI internal staff (isInternal = true): Schedule, Job Setup, HR Dashboard (no Billing)
+    // - Client HR/Admin (isInternal = false): only Billing (no Schedule/Job Setup/HR Dashboard)
+    navItems = isInternal
+      ? baseRoleLinks // Schedule, Job Setup, HR Dashboard
+      : [{ to: '/hr/billing', label: 'Billing' }]
+  } else if (role) {
+    navItems = baseRoleLinks
+  } else {
+    navItems = publicLinks
   }
 
   return (
