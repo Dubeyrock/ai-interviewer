@@ -4,7 +4,7 @@ const configuredBaseURL = import.meta.env.VITE_API_BASE_URL
 const fallbackBaseURLs = ['http://127.0.0.1:8001/api', 'http://127.0.0.1:8000/api']
 const baseURL = configuredBaseURL || fallbackBaseURLs[0]
 const localApiBaseURLs = Array.from(new Set([baseURL, ...fallbackBaseURLs]))
-const requestTimeoutMs = 30000  // 30 seconds
+const requestTimeoutMs = 60000  // 60 seconds — Render cold start handle karne ke liye
 
 const isLocalBaseURL = (url?: string) => Boolean(url && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/api\/?$/i.test(url))
 
