@@ -38,7 +38,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
     : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10'}`;
 
 export default function Navbar() {
-  const { token, role, isInternal, logout } = useAuth()
+  const { token, role, isInternal, isSuperAdmin, logout } = useAuth()
   const location = useLocation()
   const isLanding = location.pathname === '/'
 
@@ -102,12 +102,17 @@ export default function Navbar() {
   if (isAdminRoute) {
     navItems = baseRoleLinks.filter((item) => item.to === '/admin/dashboard')
   } else if (role === 'hr') {
-    // ✅ Role-based visibility for HR:
-    // - Pratibha AI internal staff (isInternal = true): Schedule, Job Setup, HR Dashboard (no Billing)
-    // - Client HR/Admin (isInternal = false): only Billing (no Schedule/Job Setup/HR Dashboard)
-    navItems = isInternal
-      ? baseRoleLinks // Schedule, Job Setup, HR Dashboard
-      : [{ to: '/hr/billing', label: 'Billing' }]
+    // ✅ Role-based visibility for HR (3 levels):
+    // 1) Client HR/Admin (isInternal = false)              → sirf Billing
+    // 2) Pratibha internal HR Employee (isInternal = true, isSuperAdmin = false) → Schedule, Job Setup, HR Dashboard (no Billing)
+    // 3) Pratibha internal Admin (isInternal = true, isSuperAdmin = true)        → Schedule, Job Setup, HR Dashboard + Billing (sab kuch)
+    if (!isInternal) {
+      navItems = [{ to: '/hr/billing', label: 'Billing' }]
+    } else if (isSuperAdmin) {
+      navItems = [...baseRoleLinks, { to: '/hr/billing', label: 'Billing' }]
+    } else {
+      navItems = baseRoleLinks // Schedule, Job Setup, HR Dashboard
+    }
   } else if (role) {
     navItems = baseRoleLinks
   } else {
