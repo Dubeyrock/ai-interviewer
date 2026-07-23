@@ -5,11 +5,13 @@ import uuid
 # pyrefly: ignore [missing-import]
 from app.core.database import Base
 
+
 class UserCreateRequest(BaseModel):
     name: str = Field(min_length=2)
     email: EmailStr
     password: str = Field(min_length=6)
-    role: str = Field(default="candidate", pattern="^(candidate|hr)$")
+    # ✅ FIX: 'admin' add kiya taaki Pratibha internal Admin bhi register/login ho sake
+    role: str = Field(default="candidate", pattern="^(candidate|hr|admin)$")
     company: str | None = None
     recaptcha_token: str | None = None
 
@@ -27,6 +29,8 @@ class TokenResponse(BaseModel):
     role: str
     assigned_job_id: int | None = None
     is_internal: bool = False
+    # ✅ NAYA: Pratibha internal Admin vs Employee ko frontend mein distinguish karne ke liye
+    is_super_admin: bool = False
 
 
 class UserOut(BaseModel):
@@ -34,6 +38,7 @@ class UserOut(BaseModel):
     name: str
     email: EmailStr
     role: str
+
 
 class User(Base):
     __tablename__ = "users"
@@ -47,6 +52,8 @@ class User(Base):
     subscription_status = Column(String, default="active")
     subscription_ends_at = Column(DateTime, nullable=True)
     is_internal = Column(Boolean, default=False)
+    # ✅ NAYA COLUMN: sirf Pratibha ke internal Admin account(s) ke liye True hoga
+    is_super_admin = Column(Boolean, default=False)
     company_id = Column(String, ForeignKey("companies.id"), nullable=True)
     company = relationship("Company", back_populates="users")
     schedules = relationship("Schedule", back_populates="owner", cascade="all, delete-orphan")
