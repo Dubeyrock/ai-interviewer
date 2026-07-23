@@ -15,27 +15,22 @@ import Features from './pages/Features'
 import BookDemo from './pages/BookDemo'
 import BillingPage from './pages/BillingPage'
 import ContactSales from './pages/ContactSales'
-
 import HRGuard from './components/shared/HRGuard';
 import AdminGuard from './components/shared/AdminGuard';
 import AuthGuard from './components/shared/AuthGuard';
 import CandidateGuard from './components/shared/CandidateGuard';
 import RegistrationGuard from './components/shared/RegistrationGuard';
-
 export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white transition-colors duration-300">
       <Navbar />
       <Toaster position="top-center" />
-
       <Routes>
         <Route path="/" element={<LandingPage />} />
-
         <Route path="/login" element={<Login />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/features" element={<Features />} />
         <Route path="/book-demo" element={<BookDemo />} />
-
         <Route
           path="/register"
           element={
@@ -44,7 +39,6 @@ export default function App() {
             </CandidateGuard>
           }
         />
-
         <Route
           path="/interview"
           element={
@@ -55,7 +49,6 @@ export default function App() {
             </CandidateGuard>
           }
         />
-
         <Route
           path="/schedule"
           element={
@@ -64,17 +57,14 @@ export default function App() {
             </HRGuard>
           }
         />
-
         <Route
           path="/book-demo"
           element={<BookDemo />}
         />
-
         <Route
           path="/contact-sales"
           element={<ContactSales />}
         />
-
         <Route
           path="/hr"
           element={
@@ -83,7 +73,6 @@ export default function App() {
             </HRGuard>
           }
         />
-
         <Route
           path="/hr/billing"
           element={
@@ -92,7 +81,14 @@ export default function App() {
             </HRGuard>
           }
         />
-
+        <Route
+          path="/job-setup"
+          element={
+            <HRGuard>
+              <JobSetup />
+            </HRGuard>
+          }
+        />
         <Route
           path="/admin/dashboard"
           element={
@@ -101,7 +97,6 @@ export default function App() {
             </AdminGuard>
           }
         />
-
         <Route
           path="/upload"
           element={
