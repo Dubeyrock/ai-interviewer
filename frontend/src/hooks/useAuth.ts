@@ -8,12 +8,19 @@ export function useAuth() {
   const [candidateId, setCandidateId] = useState<string | null>(() => localStorage.getItem('candidateId'))
   const [isInternal, setIsInternal] = useState<boolean>(() => localStorage.getItem('is_internal') === 'true')
 
+  // ✅ NAYA: Pratibha ke internal HR staff mein "Admin" vs "Employee" ka farak
+  // Backend login response mein 'is_super_admin' (true/false) bhejna hoga
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(
+    () => localStorage.getItem('is_super_admin') === 'true'
+  )
+
   useEffect(() => {
     const sync = () => {
       setToken(localStorage.getItem('token'))
       setRole(localStorage.getItem('role') as UserRole)
       setCandidateId(localStorage.getItem('candidateId'))
       setIsInternal(localStorage.getItem('is_internal') === 'true')
+      setIsSuperAdmin(localStorage.getItem('is_super_admin') === 'true')
     }
     window.addEventListener('storage', sync)
     window.addEventListener('roleChange', sync)
@@ -28,10 +35,12 @@ export function useAuth() {
     localStorage.removeItem('role')
     localStorage.removeItem('candidateId')
     localStorage.removeItem('is_internal')
+    localStorage.removeItem('is_super_admin')
     setToken(null)
     setRole(null)
     setCandidateId(null)
     setIsInternal(false)
+    setIsSuperAdmin(false)
     window.location.href = '/'
   }
 
@@ -40,5 +49,16 @@ export function useAuth() {
   const isHR = role === 'hr'
   const isAdmin = role === 'admin'
 
-  return { token, role, candidateId, isInternal, isAuthenticated, isCandidate, isHR, isAdmin, logout }
+  return {
+    token,
+    role,
+    candidateId,
+    isInternal,
+    isSuperAdmin,
+    isAuthenticated,
+    isCandidate,
+    isHR,
+    isAdmin,
+    logout,
+  }
 }
